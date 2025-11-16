@@ -1,1 +1,20 @@
+services:
+  - type: web
+    name: quantum-translator-api
+    env: node
+    buildCommand: "npm install"
+    startCommand: "node api/translate.js"
+    autoDeploy: true
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+
+staticSites:
+  - name: quantum-translator-site
+    buildCommand: "npm install"
+    publishPath: "./frontend"
+    routes:
+      - type: rewrite
+        source: "/api/*"
+        destination: "https://quantum-translator-api.onrender.com/api/:splat"
 
