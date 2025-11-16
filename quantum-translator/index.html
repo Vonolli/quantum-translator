@@ -1,1 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Translator - Visual Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-indigo-950 via-purple-900 to-slate-900 min-h-screen">
+    <div class="max-w-5xl mx-auto px-4 py-12">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <div class="flex items-center justify-center gap-3 mb-4">
+                <svg class="w-12 h-12 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+                <h1 class="text-5xl font-bold text-white">Quantum Translator</h1>
+            </div>
+            <p class="text-xl text-gray-300">
+                Discover if your problem could benefit from quantum computing
+            </p>
+        </div>
 
+        <!-- Input Section -->
+        <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 mb-8 border border-white/20">
+            <label class="block text-white text-lg font-semibold mb-3">
+                Describe your computational problem:
+            </label>
+            <textarea
+                id="problemInput"
+                class="w-full h-32 px-4 py-3 bg-slate-900/50 text-white rounded-lg border border-white/20 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent resize-none"
+                placeholder="Example: I need to optimize delivery routes for 50 trucks across 200 locations..."
+            >Find the shortest route visiting 20 cities</textarea>
+            
+            <div class="mt-4 flex flex-wrap gap-2 mb-4">
+                <span class="text-sm text-gray-400">Try an example:</span>
+                <button onclick="setExample('Find the shortest route visiting 20 cities')" class="text-sm px-3 py-1 bg-white/10 hover:bg-white/20 text-cyan-300 rounded-full transition-colors">
+                    Find the shortest route visiting 20...
+                </button>
+                <button onclick="setExample('Search a database of 1 million records')" class="text-sm px-3 py-1 bg-white/10 hover:bg-white/20 text-cyan-300 rounded-full transition-colors">
+                    Search a database of 1 million rec...
+                </button>
+                <button onclick="setExample('Simulate a molecule with 50 atoms')" class="text-sm px-3 py-1 bg-white/10 hover:bg-white/20 text-cyan-300 rounded-full transition-colors">
+                    Simulate a molecule with 50 atoms...
+                </button>
+            </div>
+
+            <button
+                onclick="showDemo()"
+                class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-all flex items-center justify-center gap-2"
+            >
+                <span>Translate to Quantum</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Results Section (Demo - always visible) -->
+        <div class="space-y-6 fade-in">
+            <!-- Classical Approach -->
+            <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+                <div class="flex items-center gap-3 mb-4">
+                    <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+                    </svg>
+                    <h2 class="text-2xl font-bold text-white">Classical Approach</h2>
+                </div>
+                <p class="text-gray-200 leading-relaxed">
+                    This is a combinatorial optimization problem. Classically, you would test different combinations systematically or use heuristics like genetic algorithms or simulated annealing. For large problem spaces, this becomes exponentially slow.
+                </p>
+            </div>
+
+            <!-- Quantum Approach -->
+            <div class="bg-gradient-to-br from-cyan-500/20 to-blue-600/20 backdrop-blur-lg rounded-2xl p-6 border border-cyan-400/30">
+                <div class="flex items-center gap-3 mb-4">
+                    <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                    <h2 class="text-2xl font-bold text-white">Quantum Formulation</h2>
+                </div>
+                <p class="text-gray-100 leading-relaxed">
+                    Reformulate as a Quadratic Unconstrained Binary Optimization (QUBO) problem. Use quantum annealing or QAOA (Quantum Approximate Optimization Algorithm) to explore the solution space. Encode constraints in the cost function and let quantum superposition evaluate multiple solutions simultaneously.
+                </p>
+            </div>
+
+            <!-- Speedup Estimate -->
+            <div class="bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-lg rounded-2xl p-6 border border-purple-400/30">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-6 h-6 flex items-center justify-center">
+                        <span class="text-2xl">⚡</span>
+                    </div>
+                    <h2 class="text-2xl font-bold text-white">Potential Speedup</h2>
+                </div>
+                <p class="text-gray-100 leading-relaxed font-semibold text-lg">
+                    Estimated speedup: 10-100x for problems with 100+ variables
+                </p>
+                <p class="text-sm text-gray-300 mt-2">
+                    Category: <span class="font-semibold text-purple-300">optimization</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-12 text-center text-gray-400 text-sm">
+            <p>This is a VISUAL DEMO showing how the interface looks. The actual version will connect to your backend API.</p>
+        </div>
+    </div>
+
+    <script>
+        function setExample(text) {
+            document.getElementById('problemInput').value = text;
+        }
+
+        function showDemo() {
+            alert('This is just a visual demo! The real version will process your problem when you deploy the backend. 🚀');
+        }
+    </script>
+</body>
+</html>
