@@ -1,1 +1,11 @@
+{
+  "name": "quantum-translator-lite",
+  "type": "module",
+  "scripts": {
+    "start": "node api/translate.js"
+  },
+  "dependencies": {
+    "openai": "^4.0.0"
+  }
+}
 
